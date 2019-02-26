@@ -1,0 +1,31 @@
+Gopkg.lock
+*.log
+# vendor/
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, build with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Ignore vendor dir and glide stuff
+*.lock
+#vendor/
+
+# ignore binary (oops)
+fit-client
+
+.firstrun
+client.key
+modules/
+*.log
+middleware/
+
+detectcloud
