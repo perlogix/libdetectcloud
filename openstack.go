@@ -1,4 +1,4 @@
-package detectcloud
+package libdetectcloud
 
 import (
 	"io/ioutil"
