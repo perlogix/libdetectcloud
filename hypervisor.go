@@ -52,7 +52,7 @@ func BIOSInfo() (*BIOS, error) {
 	}
 	for h, s := range hypervisors {
 		for _, i := range s {
-			re, err := regexp.Compile(`(?igm).*` + i + `.*`)
+			re, err := regexp.Compile(`(?igm)` + i)
 			if err != nil {
 				return b, nil
 			}
