@@ -1,8 +1,6 @@
 package libdetectcloud
 
 import (
-	"fmt"
-
 	"github.com/digitalocean/go-smbios/smbios"
 )
 
@@ -31,11 +29,9 @@ func BIOSInfo() (*BIOS, error) {
 		return nil, err
 	}
 	info := []string{}
-	formatted := []byte{}
 	for _, i := range ss {
 		if i.Header.Type == 1 {
 			info = i.Strings
-			formatted = i.Formatted
 		}
 	}
 	b := &BIOS{
@@ -43,6 +39,5 @@ func BIOSInfo() (*BIOS, error) {
 		ProductName:  info[1],
 		SerialNumber: info[3],
 	}
-	fmt.Println(string(formatted))
 	return b, nil
 }
