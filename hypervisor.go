@@ -2,7 +2,6 @@ package libdetectcloud
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/digitalocean/go-smbios/smbios"
 )
@@ -17,10 +16,10 @@ type BIOS struct {
 }
 
 //BIOSInfo function gets information from the SMBIOS
-func BIOSInfo() {
+func BIOSInfo() (*BIOS, error) {
 	rc, _, err := smbios.Stream()
 	if err != nil {
-		log.Fatalf("failed to open stream: %v", err)
+		return nil, err
 	}
 	// Be sure to close the stream!
 	defer rc.Close()
@@ -29,10 +28,21 @@ func BIOSInfo() {
 	d := smbios.NewDecoder(rc)
 	ss, err := d.Decode()
 	if err != nil {
-		log.Fatalf("failed to decode structures: %v", err)
+		return nil, err
 	}
-	for _, s := range ss {
-		fmt.Printf("%+v\n", s)
+	info := []string{}
+	formatted := []byte{}
+	for _, i := range ss {
+		if i.Header.Type == 1 {
+			info = i.Strings
+			formatted = i.Formatted
+		}
 	}
-
+	b := &BIOS{
+		Manufacturer: info[0],
+		ProductName:  info[1],
+		SerialNumber: info[3],
+	}
+	fmt.Println(string(formatted))
+	return b, nil
 }
