@@ -32,7 +32,7 @@ func BIOSInfo() {
 		log.Fatalf("failed to decode structures: %v", err)
 	}
 	for _, s := range ss {
-		fmt.Println(s)
+		fmt.Printf("%+v\n", s)
 	}
 
 }
