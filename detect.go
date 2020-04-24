@@ -9,6 +9,7 @@ import (
 
 var hc = &http.Client{Timeout: 120 * time.Millisecond}
 
+// Clouds type
 type Clouds struct {
 	Aws   string
 	Azure string
@@ -19,6 +20,7 @@ type Clouds struct {
 	Vr    string
 }
 
+// Detect function
 func Detect() string {
 	if runtime.GOOS != "darwin" {
 		var c Clouds
