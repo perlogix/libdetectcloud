@@ -2,6 +2,7 @@
 
 http.Client timeout is set to `300ms`. Sometimes hitting the metadata service to fast will return empty instead of the cloud provider detected.
 
+```go
     package main
 
     import (
@@ -19,3 +20,4 @@ http.Client timeout is set to `300ms`. Sometimes hitting the metadata service to
     	fmt.Println(detectcloud.Detect())
 
     }
+```
