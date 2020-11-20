@@ -7,17 +7,18 @@ import (
 	"time"
 )
 
-var hc = &http.Client{Timeout: 120 * time.Millisecond}
+var hc = &http.Client{Timeout: 300 * time.Millisecond}
 
 // Clouds type
 type Clouds struct {
-	Aws   string
-	Azure string
-	Do    string
-	Gce   string
-	Ost   string
-	Sl    string
-	Vr    string
+	Aws       string
+	Azure     string
+	Do        string
+	Gce       string
+	Ost       string
+	Sl        string
+	Vr        string
+	Container string
 }
 
 // Detect function
@@ -25,7 +26,7 @@ func Detect() string {
 	if runtime.GOOS != "darwin" {
 		var c Clouds
 		var wg sync.WaitGroup
-		wg.Add(7)
+		wg.Add(8)
 		go func() {
 			defer wg.Done()
 			c.Aws = detectAWS()
@@ -54,7 +55,12 @@ func Detect() string {
 			defer wg.Done()
 			c.Vr = detectVultr()
 		}()
+		go func() {
+			defer wg.Done()
+			c.Container = detectContainer()
+		}()
 		wg.Wait()
+
 		if c.Aws != "" {
 			return c.Aws
 		}
@@ -76,6 +82,9 @@ func Detect() string {
 		if c.Vr != "" {
 			return c.Vr
 		}
+		if c.Container != "" {
+			return c.Container
+		}
 	}
-	return "unknown"
+	return ""
 }
