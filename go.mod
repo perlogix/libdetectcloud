@@ -1,3 +1,3 @@
 module github.com/yeticloud/libdetectcloud
 
-go 1.15
+go 1.16
