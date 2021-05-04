@@ -1,3 +1,3 @@
-module github.com/yeticloud/libdetectcloud
+module github.com/perlogix/libdetectcloud
 
 go 1.16
