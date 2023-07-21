@@ -11,14 +11,15 @@ var hc = &http.Client{Timeout: 300 * time.Millisecond}
 
 // Clouds type
 type Clouds struct {
-	Aws       string
-	Azure     string
-	Do        string
-	Gce       string
-	Ost       string
-	Sl        string
-	Vr        string
-	Container string
+	AlibabaCloud string
+	Aws          string
+	Azure        string
+	Do           string
+	Gce          string
+	Ost          string
+	Sl           string
+	Vr           string
+	Container    string
 }
 
 // Detect function
@@ -26,7 +27,11 @@ func Detect() string {
 	if runtime.GOOS != "darwin" {
 		var c Clouds
 		var wg sync.WaitGroup
-		wg.Add(8)
+		wg.Add(9)
+		go func() {
+			defer wg.Done()
+			c.AlibabaCloud = detectAlibabaCloud()
+		}()
 		go func() {
 			defer wg.Done()
 			c.Aws = detectAWS()
@@ -61,6 +66,9 @@ func Detect() string {
 		}()
 		wg.Wait()
 
+		if c.AlibabaCloud != "" {
+			return c.AlibabaCloud
+		}
 		if c.Aws != "" {
 			return c.Aws
 		}
